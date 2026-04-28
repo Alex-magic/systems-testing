@@ -1,0 +1,29 @@
+name: Generate Doxygen Artifact
+
+on:
+  push:
+    tags:
+      - 'v*' # Se declanșează la orice tag care începe cu litera 'v'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+
+      - name: Run Doxygen
+        run: |
+          # Intrăm în folderul unde se află Doxyfile-ul tău
+          cd laboratories/cicd-documentation/
+          doxygen Doxyfile
+
+      - name: Upload Documentation Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-html-docs
+          # Calea trebuie să corespundă cu HTML_OUTPUT din Doxyfile-ul tău (implicit este 'html')
+          path: laboratories/cicd-documentation/html/

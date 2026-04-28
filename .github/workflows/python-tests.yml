@@ -20,4 +20,5 @@ jobs:
 
     - name: Run tests
       run: |
+        cd laboratories/cicd-documentation/
         python test_tree.py
